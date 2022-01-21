@@ -1,9 +1,9 @@
 from Ville import Ville
+from haversine import haversine
 import math as m
 
-
 # Récupération des Villes de puis le fichier
-f = open("./instances/ListeComplete.txt")
+f = open("./instances/top80.txt")
 # récupère les lignes du doc txt
 lines = f.readlines()
 listeVilles = []
@@ -23,18 +23,16 @@ f.close()
 # Affichage des villes
 def afficherVille():
     for ville in listeVilles:
-        print(str(ville.numVille) + ' ' + str(ville.nom) + ' ' + str(ville.latitude) + ' ' + str(ville.longitude))
+        print(str(ville.numVille) + ' ' + str(ville.nom) + ' ' +
+              str(ville.latitude) + ' ' + str(ville.longitude))
 
 
 # calcule la distance entre deux villes
 def distance(v1: Ville, v2: Ville) -> float:
-    r = 6371
-    x1 = m.radians(v1.longitude)
-    x2 = m.radians(v2.longitude)
-    y1 = m.radians(v1.latitude)
-    y2 = m.radians(v2.latitude)
+    ville1 = (v1.latitude, v1.longitude)
+    ville2 = (v2.latitude, v2.longitude)
 
-    distance = abs(r*m.acos( (m.sin(y1)*m.sin(y2)) + (m.cos(y1)*m.cos(y2)*m.cos(x1-x2)) ))
+    distance = haversine(ville1, ville2)
     return distance
 
 
@@ -50,7 +48,7 @@ def tourneeCroissante():
 
 
 # affiche le numero des villes de la tournée passée en paramètre
-def afficherTournee(tournees : Ville):
+def afficherTournee(tournees: Ville):
     temp = []
     for tournee in tournees:
         temp.append(tournee.numVille)
@@ -65,7 +63,7 @@ def cout(tournees) -> float:
     for i in range(len(tournees)):
         if(i < (len(tournees)-1)):
             cout += distance(tournees[i], tournees[i+1])
-            print("itération numéro", i ,cout)
+            print("itération numéro", i, cout)
         else:
             return cout
 
@@ -74,7 +72,6 @@ def cout(tournees) -> float:
 
 ## Appel des fonctions ##
 # afficherVille()
-# print("distance entre les deux villes : " , distance(listeVilles[0], listeVilles[1]))
-# print(tourneeCroissante())
+# print("distance entre ville 1 et ville 2 : " , distance(listeVilles[0], listeVilles[1]), "km")
 # afficherTournee(listeVilles)
 # print(cout(listeVilles))
