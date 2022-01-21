@@ -1,15 +1,17 @@
-from cmath import acos
-from sqlalchemy import null
+from time import process_time_ns
 from Ville import Ville
-import math
+import math as m
+
+
 # Récupération des Villes de puis le fichier
-f = open("./instances/ListeComplete.txt", "r")
+f = open("./instances/ListeComplete.txt")
+# récupère les lignes du doc txt
 lines = f.readlines()
 listeVilles = []
 for line in lines:
     # parse des lignes
     ville = line.split(" ")
-    ville[3].rstrip("\n")
+    ville[3] = ville[3].strip('\n')
 
     # création ville
     city = Ville(int(ville[0]), ville[1], float(ville[2]), float(ville[3]))
@@ -22,25 +24,36 @@ f.close()
 # Affichage des villes
 def afficherVille():
     for ville in listeVilles:
-        print(ville.numVille)
-        print(ville.nom)
-        print(ville.latitude)
-        print(ville.longitude)
+        print(str(ville.numVille) + ' ' + str(ville.nom) + ' ' + str(ville.latitude) + ' ' + str(ville.longitude))
 
-
+# calcule la distance entre deux villes
 def distance(v1: Ville, v2: Ville) -> float:
     r = 6371
-    x1 = math.radians(v1.longitude)
-    x2 = math.radians(v2.longitude)
-    y1 = math.radians(v1.latitude)
-    y2 = math.radians(v2.latitude)
-    distance = abs(r * math.acos((math.sin(y1) * math.sin(y2)) +
-                                  (math.cos(y1) * math.cos(y2) * math.cos(x1 - x2)) ))
+    x1 = m.radians(v1.longitude)
+    x2 = m.radians(v2.longitude)
+    y1 = m.radians(v1.latitude)
+    y2 = m.radians(v2.latitude)
 
+    distance = abs(r*m.acos( (m.sin(y1)*m.sin(y2)) + (m.cos(y1)*m.cos(y2)*m.cos(x1-x2)) ))
     return distance
 
 
-# appel des fonctions
+
+## tournée
+
+# créer une tournée de ville par ordre croissants des numéros de ville
+def tourneeCroissante():
+    tourneCroissante = []
+    i = 1
+    for ville in listeVilles:
+        if(ville.numVille == i):
+            tourneCroissante.append(ville)
+        i += 1
+    return tourneCroissante
+
+
+
+## Appel des fonctions ##
 # afficherVille()
-print("distance entre les deux villes : " +
-      str(distance(listeVilles[0], listeVilles[1])))
+# print("distance entre les deux villes : " , distance(listeVilles[0], listeVilles[1]))
+print(tourneeCroissante())
