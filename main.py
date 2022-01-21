@@ -1,8 +1,16 @@
+"""
+Cette partie implémente et appelle les focntions nécessaires pour effectuer les tournées
+"""
+
 from Ville import Ville
 from haversine import haversine
 import math as m
 
-# Récupération des Villes de puis le fichier
+
+"""
+Récupère les villes du fichier top80.txt
+et les sotcke dans une structure de données de type array
+"""
 f = open("./instances/top80.txt")
 # récupère les lignes du doc txt
 lines = f.readlines()
@@ -19,24 +27,36 @@ for line in lines:
     listeVilles.append(city)
 f.close()
 
-
-# Affichage des villes
+"""
+Procédure pour afficher les villes contenues dans l'array
+"""
 def afficherVille():
     for ville in listeVilles:
         print(str(ville.numVille) + ' ' + str(ville.nom) + ' ' +
               str(ville.latitude) + ' ' + str(ville.longitude))
 
-
-# calcule la distance entre deux villes
+"""
+Fonction pour calculer la distance entre deux villes
+:param v1: première ville
+:type v1: Ville
+:param v2: deuxième ville
+:type v2: Ville
+:return: distance entre la ville1 et la ville2
+:rtype: float
+"""
 def distance(v1: Ville, v2: Ville) -> float:
     ville1 = (v1.latitude, v1.longitude)
     ville2 = (v2.latitude, v2.longitude)
 
+    #utilisation d'une librairie
     distance = haversine(ville1, ville2)
     return distance
 
-
-# créer une tournée de ville par ordre croissants des numéros de ville
+"""
+Fonction pour créer une tournée de ville par ordre croissants des numéros de ville
+:return: tournee de ville
+:rtype: array[Ville]  
+"""
 def tourneeCroissante():
     tourneCroissante = []
     i = 1
@@ -46,16 +66,22 @@ def tourneeCroissante():
         i += 1
     return tourneCroissante
 
-
-# affiche le numero des villes de la tournée passée en paramètre
+"""
+Procedure pour afficher le numero des villes de la tournée
+:param tournees: array contenant les villes
+:type tournees: array[Ville]
+"""
 def afficherTournee(tournees: Ville):
     temp = []
     for tournee in tournees:
         temp.append(tournee.numVille)
     print("tournée croissante ", temp)
 
-
-# calcule la distance totale d'une tournée
+"""
+Fonction pour calculer la distance totale d'une tournée aller-retour
+:param tournees: tournee contenant la liste des villes à visiter
+:type tournees: array[Ville]
+"""
 def cout(tournees) -> float:
     cout = 0
     i = 0
@@ -69,9 +95,12 @@ def cout(tournees) -> float:
 
     return cout
 
-
-## Appel des fonctions ##
+"""
+===========================
+Appelle des fonction
+===========================
+"""
 # afficherVille()
 # print("distance entre ville 1 et ville 2 : " , distance(listeVilles[0], listeVilles[1]), "km")
 # afficherTournee(listeVilles)
-# print(cout(listeVilles))
+print(cout(listeVilles))
