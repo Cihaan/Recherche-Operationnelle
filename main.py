@@ -1,4 +1,3 @@
-from time import process_time_ns
 from Ville import Ville
 import math as m
 
@@ -26,6 +25,7 @@ def afficherVille():
     for ville in listeVilles:
         print(str(ville.numVille) + ' ' + str(ville.nom) + ' ' + str(ville.latitude) + ' ' + str(ville.longitude))
 
+
 # calcule la distance entre deux villes
 def distance(v1: Ville, v2: Ville) -> float:
     r = 6371
@@ -38,9 +38,6 @@ def distance(v1: Ville, v2: Ville) -> float:
     return distance
 
 
-
-## tournée
-
 # créer une tournée de ville par ordre croissants des numéros de ville
 def tourneeCroissante():
     tourneCroissante = []
@@ -52,8 +49,32 @@ def tourneeCroissante():
     return tourneCroissante
 
 
+# affiche le numero des villes de la tournée passée en paramètre
+def afficherTournee(tournees : Ville):
+    temp = []
+    for tournee in tournees:
+        temp.append(tournee.numVille)
+    print("tournée croissante ", temp)
+
+
+# calcule la distance totale d'une tournée
+def cout(tournees) -> float:
+    cout = 0
+    i = 0
+
+    for i in range(len(tournees)):
+        if(i < (len(tournees)-1)):
+            cout += distance(tournees[i], tournees[i+1])
+            print("itération numéro", i ,cout)
+        else:
+            return cout
+
+    return cout
+
 
 ## Appel des fonctions ##
 # afficherVille()
 # print("distance entre les deux villes : " , distance(listeVilles[0], listeVilles[1]))
-print(tourneeCroissante())
+# print(tourneeCroissante())
+# afficherTournee(listeVilles)
+# print(cout(listeVilles))
