@@ -85,13 +85,18 @@ Fonction pour calculer la distance totale d'une tournée aller-retour
 def cout(tournees) -> float:
     cout = 0
     i = 0
+    n = 0
 
+    #aller
     for i in range(len(tournees)):
-        if(i < (len(tournees)-1)):
-            cout += distance(tournees[i], tournees[i+1])
-            print("itération numéro", i, cout)
-        else:
-            return cout
+        cout += distance(tournees[i-1], tournees[i])
+        print("itération numéro", i, cout)
+
+    #retour
+    for i in tournees:
+        n -= 1
+        cout += distance(tournees[n+1], tournees[n])
+        print("itération numéro", n, cout)
 
     return cout
 
