@@ -5,6 +5,7 @@ Cette partie implémente et appelle les focntions nécessaires pour effectuer le
 from Ville import Ville
 from haversine import haversine
 import math as m
+import random
 
 
 """
@@ -57,7 +58,7 @@ Fonction pour créer une tournée de ville par ordre croissants des numéros de 
 :return: tournee de ville
 :rtype: array[Ville]  
 """
-def tourneeCroissante():
+def tourneeCroissante() -> list:
     tourneCroissante = []
     i = 1
     for ville in listeVilles:
@@ -101,6 +102,20 @@ def cout(tournees) -> float:
     return cout
 
 """
+génère une tournée aléatoire
+"""
+def tourAleatoire() -> list:
+
+    tourneeDeso = tourneeCroissante()
+    random.shuffle(tourneeDeso)
+    
+    return tourneeDeso
+
+
+
+
+
+"""
 ===========================
 Appelle des fonction
 ===========================
@@ -108,4 +123,5 @@ Appelle des fonction
 # afficherVille()
 # print("distance entre ville 1 et ville 2 : " , distance(listeVilles[0], listeVilles[1]), "km")
 # afficherTournee(listeVilles)
-print(cout(listeVilles))
+# print(cout(listeVilles))
+# print(tourAleatoire())
