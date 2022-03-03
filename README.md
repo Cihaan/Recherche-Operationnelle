@@ -1,4 +1,4 @@
 # Recherche-Operationnelle
 
 
-[TODO]
+Réponse à des problèmes de recherche opérationnelle en python.
