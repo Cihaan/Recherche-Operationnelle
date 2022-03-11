@@ -6,6 +6,7 @@ class Ville:
     nom = ""
     latitude = ""
     longitude = ""
+    viste = False
 
     """
     Constructeur

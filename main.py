@@ -3,7 +3,7 @@ Cette partie implémente et appelle les focntions nécessaires pour effectuer le
 """
 
 from Ville import Ville
-from haversine import haversine
+# from haversine import haversine
 import math as m
 import random
 
@@ -49,8 +49,14 @@ def distance(v1: Ville, v2: Ville) -> float:
     ville1 = (v1.latitude, v1.longitude)
     ville2 = (v2.latitude, v2.longitude)
 
+    x1 = v1.latitude * m.pi / 180
+    x2 = v2.latitude * m.pi / 180
+    y1 = v1.longitude * m.pi / 180
+    y2 = v2.longitude * m.pi / 180
+
     #utilisation d'une librairie
-    distance = haversine(ville1, ville2)
+    # distance = haversine(ville1, ville2)
+    distance = abs(6371 * m.acos( (m.sin(y1) * m.sin(y2)) + (m.cos(y1) * m.cos(y2) * m.cos(x1-x2)) ))
     return distance
 
 """
@@ -111,9 +117,58 @@ def tourAleatoire() -> list:
     
     return tourneeDeso
 
+"""
+renvoie une tournée optimisée
+"""
+def plusProcheVoisin(v: Ville) -> list:
+    Visite = []
+
+    #construction de de la liste de ville à visiter
+    for ville in listeVilles:
+        if ville.viste == False:
+            Visite.append(ville)
+    
+    tour = []
+    donne(Visite, v).viste = True
+
+    while len(Visite) != 0:
+        suivant = plusProche(Visite, v)
+        
+        donne(Visite, suivant).viste = True
+        suivant.viste = True
+        tour.append(suivant)
+
+        v = suivant
+
+    return tour
+
+"""
+retourne la ville la plus proche
+"""
+def plusProche(liste, v: Ville) -> Ville:
+    dist = distance(v, liste[5])
+    villeProche = liste[5]
+
+    for i in range(len(liste)):
+        if liste[i].viste != True:
+
+            tempDistance = distance(v, liste[i])
+
+            if tempDistance < dist:
+                dist = tempDistance
+                villeProche = ville[i]
+
+    return villeProche
 
 
 
+"""
+cherche ville dans liste
+"""
+def donne(visite: list, v: Ville) -> Ville:
+    for x in visite:
+        if x.numVille == v.numVille:
+            return x
 
 """
 ===========================
@@ -125,3 +180,4 @@ Appelle des fonction
 # afficherTournee(listeVilles)
 # print(cout(listeVilles))
 # print(tourAleatoire())
+print(plusProcheVoisin(listeVilles[0]))
