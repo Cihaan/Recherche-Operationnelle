@@ -46,8 +46,8 @@ Fonction pour calculer la distance entre deux villes
 :rtype: float
 """
 def distance(v1: Ville, v2: Ville) -> float:
-    ville1 = (v1.latitude, v1.longitude)
-    ville2 = (v2.latitude, v2.longitude)
+    # ville1 = (v1.latitude, v1.longitude)
+    # ville2 = (v2.latitude, v2.longitude)
 
     x1 = v1.latitude * m.pi / 180
     x2 = v2.latitude * m.pi / 180
@@ -123,13 +123,14 @@ renvoie une tournée optimisée
 def plusProcheVoisin(v: Ville) -> list:
     Visite = []
 
-    #construction de de la liste de ville à visiter
+    #construction de la liste de ville à visiter
     for ville in listeVilles:
         if ville.viste == False:
             Visite.append(ville)
     
     tour = []
     donne(Visite, v).viste = True
+    tour.append(v)
 
     while len(Visite) != 0:
         suivant = plusProche(Visite, v)
@@ -137,6 +138,7 @@ def plusProcheVoisin(v: Ville) -> list:
         donne(Visite, suivant).viste = True
         suivant.viste = True
         tour.append(suivant)
+        Visite.remove(v)
 
         v = suivant
 
@@ -146,17 +148,18 @@ def plusProcheVoisin(v: Ville) -> list:
 retourne la ville la plus proche
 """
 def plusProche(liste, v: Ville) -> Ville:
-    dist = distance(v, liste[5])
-    villeProche = liste[5]
+    distanceFictive = 500
+    villeProche = liste[0]
 
     for i in range(len(liste)):
         if liste[i].viste != True:
 
             tempDistance = distance(v, liste[i])
 
-            if tempDistance < dist:
+            if tempDistance < distanceFictive:
                 dist = tempDistance
-                villeProche = ville[i]
+                villeProche = liste[i]
+            
 
     return villeProche
 
