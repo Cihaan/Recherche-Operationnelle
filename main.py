@@ -157,6 +157,7 @@ def plusProche(liste, v: Ville) -> Ville:
             tempDistance = distance(v, liste[i])
 
             if tempDistance < distanceFictive:
+                distanceFictive = tempDistance
                 dist = tempDistance
                 villeProche = liste[i]
             
