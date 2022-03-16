@@ -24,3 +24,4 @@ class Ville:
         self.nom = nom
         self.latitude = latitude
         self.longitude = longitude
+        viste = False

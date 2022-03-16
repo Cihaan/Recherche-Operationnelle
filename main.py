@@ -49,10 +49,14 @@ def distance(v1: Ville, v2: Ville) -> float:
     # ville1 = (v1.latitude, v1.longitude)
     # ville2 = (v2.latitude, v2.longitude)
 
-    x1 = v1.latitude * m.pi / 180
-    x2 = v2.latitude * m.pi / 180
-    y1 = v1.longitude * m.pi / 180
-    y2 = v2.longitude * m.pi / 180
+    # x1 = v1.latitude * m.pi / 180
+    x1 = m.radians(v1.longitude)
+    # x2 = v2.latitude * m.pi / 180
+    x2 = m.radians(v2.longitude)
+    # y1 = v1.longitude * m.pi / 180
+    y1 = m.radians(v1.latitude)
+    # y2 = v2.longitude * m.pi / 180
+    y2 = m.radians(v2.latitude)
 
     #utilisation d'une librairie
     # distance = haversine(ville1, ville2)
@@ -89,7 +93,7 @@ Fonction pour calculer la distance totale d'une tournée aller-retour
 :param tournees: tournee contenant la liste des villes à visiter
 :type tournees: array[Ville]
 """
-def cout(tournees) -> float:
+def cout(tournees, retour) -> float:
     cout = 0
     i = 0
     n = 0
@@ -97,13 +101,12 @@ def cout(tournees) -> float:
     #aller
     for i in range(len(tournees)):
         cout += distance(tournees[i-1], tournees[i])
-        print("itération numéro", i, cout)
 
     #retour
-    for i in tournees:
-        n -= 1
-        cout += distance(tournees[n+1], tournees[n])
-        print("itération numéro", n, cout)
+    if retour == True:
+        for i in tournees:
+            n -= 1
+            cout += distance(tournees[n+1], tournees[n])
 
     return cout
 
@@ -118,7 +121,7 @@ def tourAleatoire() -> list:
     return tourneeDeso
 
 """
-renvoie une tournée optimisée
+renvoie une tournée
 """
 def plusProcheVoisin(v: Ville) -> list:
     Visite = []
@@ -148,7 +151,7 @@ def plusProcheVoisin(v: Ville) -> list:
 retourne la ville la plus proche
 """
 def plusProche(liste, v: Ville) -> Ville:
-    distanceFictive = 500
+    distanceFictive = 1000
     villeProche = liste[0]
 
     for i in range(len(liste)):
@@ -158,7 +161,6 @@ def plusProche(liste, v: Ville) -> Ville:
 
             if tempDistance < distanceFictive:
                 distanceFictive = tempDistance
-                dist = tempDistance
                 villeProche = liste[i]
             
 
@@ -174,6 +176,47 @@ def donne(visite: list, v: Ville) -> Ville:
         if x.numVille == v.numVille:
             return x
 
+
+"""
+reche deux points les plus proches
+"""
+def rechercheLocale(tournee: list) -> list:
+    tourneeCourante = tournee
+    fini = False
+
+    while fini == False:
+        fini = True
+        for i in range(len(tourneeCourante)):
+            tourneeVoisine = tourneeVoisin(tourneeCourante)
+
+            if cout(tourneeVoisine, False) < cout(tourneeCourante, False):
+                tourneeCourante = tourneeVoisine.copy()
+                fini = False
+            
+    return tourneeCourante
+
+
+"""
+explore le voisinage de la tournee passée en paramètre
+"""
+def tourneeVoisin(tournee: list) -> list:
+    tourneVoisine = []
+
+    i= 1
+    for i in range(len(tournee)-1):
+        
+        tourneVoisine.append(tournee[i])
+
+    tourneVoisine.append(tournee[0])
+    return tourneVoisine
+
+"""
+echange les villes de la tournee
+"""
+def echanger(tournee: list, i: int, j: int):
+    for i in range(len(tournee)-1):
+        tournee[i]
+
 """
 ===========================
 Appelle des fonction
@@ -184,4 +227,15 @@ Appelle des fonction
 # afficherTournee(listeVilles)
 # print(cout(listeVilles))
 # print(tourAleatoire())
-print(plusProcheVoisin(listeVilles[0]))
+
+# print("distance entre ville 4 et ville 20 : " , distance(listeVilles[3], listeVilles[19]), "km")rechercheLocale(tournee: list)
+# print("distance entre ville 4 et ville 8 : " , distance(listeVilles[3], listeVilles[7]), "km")
+
+#plus proche voisin :
+# afficherTournee(plusProcheVoisin(listeVilles[0]))
+# print(cout(plusProcheVoisin(listeVilles[0]), False))
+
+#recherche locale
+# afficherTournee(rechercheLocale(plusProcheVoisin(listeVilles[0])))
+print(cout(rechercheLocale(plusProcheVoisin(listeVilles[0])), False))
+# print(rechercheLocale(plusProcheVoisin(listeVilles[0])))
