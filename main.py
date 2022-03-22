@@ -104,9 +104,12 @@ def cout(tournees, retour) -> float:
 
     #retour
     if retour == True:
-        for i in tournees:
-            n -= 1
-            cout += distance(tournees[n+1], tournees[n])
+    #     for i in tournees:
+    #         n -= 1
+    #         cout += distance(tournees[n+1], tournees[n])
+        cout += distance(tournees[len(tournees)-1], tournees[0])
+
+
 
     return cout
 
@@ -145,6 +148,7 @@ def plusProcheVoisin(v: Ville) -> list:
 
         v = suivant
 
+    tour.pop()
     return tour
 
 """
@@ -163,7 +167,6 @@ def plusProche(liste, v: Ville) -> Ville:
                 distanceFictive = tempDistance
                 villeProche = liste[i]
             
-
     return villeProche
 
 
@@ -233,9 +236,9 @@ Appelle des fonction
 
 #plus proche voisin :
 # afficherTournee(plusProcheVoisin(listeVilles[0]))
-# print(cout(plusProcheVoisin(listeVilles[0]), False))
+# print(cout(plusProcheVoisin(listeVilles[0]), False)) #False ou True représente si on fait le retour ou non
 
 #recherche locale
 # afficherTournee(rechercheLocale(plusProcheVoisin(listeVilles[0])))
-print(cout(rechercheLocale(plusProcheVoisin(listeVilles[0])), False))
+# print(cout(rechercheLocale(plusProcheVoisin(listeVilles[0])), True))
 # print(rechercheLocale(plusProcheVoisin(listeVilles[0])))
